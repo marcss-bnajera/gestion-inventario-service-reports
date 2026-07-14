@@ -28,7 +28,7 @@ export const getTopProducts = async (req, res) => {
 
         const topProducts = Object.values(productCounts)
             .sort((a, b) => b.totalQuantity - a.totalQuantity)
-            .slice(0, 10);
+            .slice(0, parseInt(req.query.limit) || 10);
 
         return res.status(200).json({
             success: true,
