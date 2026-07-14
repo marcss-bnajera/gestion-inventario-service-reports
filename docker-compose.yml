@@ -1,0 +1,14 @@
+services:
+  mongodb-reports:
+    image: mongo:7
+    container_name: gestion-inventario-mongo-reports
+    restart: unless-stopped
+    ports:
+      - "27018:27017"
+    volumes:
+      - mongodb_reports_data:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: gestionInventario
+
+volumes:
+  mongodb_reports_data:
