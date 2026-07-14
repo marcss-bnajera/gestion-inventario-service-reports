@@ -2,10 +2,9 @@
 
 import axios from 'axios';
 
-const INVENTORY_URL = process.env.INVENTORY_SERVICE_URL;
-
 export const getTopProducts = async (req, res) => {
     try {
+        const INVENTORY_URL = process.env.INVENTORY_SERVICE_URL;
         const outputsResponse = await axios.get(`${INVENTORY_URL}/outputs`, {
             params: { limit: 10000 },
         });
@@ -29,7 +28,7 @@ export const getTopProducts = async (req, res) => {
 
         const topProducts = Object.values(productCounts)
             .sort((a, b) => b.totalQuantity - a.totalQuantity)
-            .slice(0, 10);
+            .slice(0, parseInt(req.query.limit) || 10);
 
         return res.status(200).json({
             success: true,
@@ -49,6 +48,7 @@ export const getTopProducts = async (req, res) => {
 
 export const getCategoriesSummary = async (req, res) => {
     try {
+        const INVENTORY_URL = process.env.INVENTORY_SERVICE_URL;
         const productsResponse = await axios.get(`${INVENTORY_URL}/products`, {
             params: { isActive: true, limit: 10000 },
         });
@@ -94,6 +94,7 @@ export const getCategoriesSummary = async (req, res) => {
 
 export const getInventorySummary = async (req, res) => {
     try {
+        const INVENTORY_URL = process.env.INVENTORY_SERVICE_URL;
         const productsResponse = await axios.get(`${INVENTORY_URL}/products`, {
             params: { isActive: true, limit: 10000 },
         });

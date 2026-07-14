@@ -48,6 +48,15 @@ export const initServer = async () => {
         });
 
         routes(app);
+
+        app.use((req, res) => {
+            res.status(404).json({
+                success: false,
+                message: `Ruta no encontrada: ${req.method} ${req.originalUrl}`,
+                error: 'NOT_FOUND',
+            });
+        });
+
         app.use(errorHandler);
 
         app.listen(PORT, () => {

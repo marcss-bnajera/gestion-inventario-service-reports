@@ -2,16 +2,16 @@
 
 import axios from 'axios';
 
-const INVENTORY_URL = process.env.INVENTORY_SERVICE_URL;
-
 export const getLowStockProducts = async (req, res) => {
     try {
+        const INVENTORY_URL = process.env.INVENTORY_SERVICE_URL;
         const response = await axios.get(`${INVENTORY_URL}/products`, {
             params: { isActive: true, limit: 1000 },
         });
 
         const products = response.data.data || [];
-        const lowStock = products.filter((p) => p.stock <= (p.minStock || 5));
+        const threshold = req.query.threshold ? parseInt(req.query.threshold) : 5;
+        const lowStock = products.filter((p) => p.stock <= (p.minStock || threshold));
 
         return res.status(200).json({
             success: true,
@@ -31,6 +31,7 @@ export const getLowStockProducts = async (req, res) => {
 
 export const getOutOfStockProducts = async (req, res) => {
     try {
+        const INVENTORY_URL = process.env.INVENTORY_SERVICE_URL;
         const response = await axios.get(`${INVENTORY_URL}/products`, {
             params: { isActive: true, limit: 1000 },
         });
