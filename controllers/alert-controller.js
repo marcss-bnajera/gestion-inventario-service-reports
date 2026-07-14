@@ -2,10 +2,9 @@
 
 import axios from 'axios';
 
-const INVENTORY_URL = process.env.INVENTORY_SERVICE_URL;
-
 export const getLowStockProducts = async (req, res) => {
     try {
+        const INVENTORY_URL = process.env.INVENTORY_SERVICE_URL;
         const response = await axios.get(`${INVENTORY_URL}/products`, {
             params: { isActive: true, limit: 1000 },
         });
@@ -31,6 +30,7 @@ export const getLowStockProducts = async (req, res) => {
 
 export const getOutOfStockProducts = async (req, res) => {
     try {
+        const INVENTORY_URL = process.env.INVENTORY_SERVICE_URL;
         const response = await axios.get(`${INVENTORY_URL}/products`, {
             params: { isActive: true, limit: 1000 },
         });
